@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+{% if message %}
+  <div class="alert alert-success"> {{ message }} </div>
+{% endif %}
+
+<h2> {{ poll.name }} </h2>
+<form method="post">
+  {% csrf_token %}
+  {% for selection in poll.selections.all %}
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="selection_id" id="{{ selection.id }}" value="{{ selection.id }}">
+      <label class="form-check-label" for="{{ selection.id }}">{{ selection.name }}</label>
+    </div>
+  {% endfor %}
+  <button class="btn btn-success">Vote</button>
+</form>
+
+<br/>
+{% if stats %}
+  <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+{% endif %}
+
+
+<script>
+
+  const data = {{ stats| safe }};
+
+  const xValues = Object.keys(data);
+  const yValues = Object.values(data);
+  const barColors = ["red", "green","blue","orange","brown"];
+
+  new Chart("myChart", {
+    type: "bar",
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      }]
+    },
+    options: {
+      legend: {display: false},
+      title: {
+        display: true,
+        text: "Poll results among voters"
+      },
+      scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+      }
+    }
+  });
+
+</script>
+
+{% endblock %}
