@@ -40,6 +40,8 @@ Password: secretsecret
 
 ### 1. [Injection]('https://owasp.org/Top10/A03_2021-Injection/)
 
+https://github.com/IlmastMaksim/cyber-security-base-project/blob/main/polls/views.py#L43
+
 Injection is a way of cyber attack, where the attacker tries to inject into the apps database and execute additional malicious commands.This may result in data leaks or destruction. So, for example if Django uses the following syntax to retrieve required data
 ```
     Poll.objects.get(id=poll_id)
@@ -54,11 +56,15 @@ The way to prevent the following type of intrusion, would be to take up server-s
 
 ### 2. [CSRF]('https://owasp.org/www-community/attacks/csrf)
 
+https://github.com/IlmastMaksim/cyber-security-base-project/blob/main/polls/views.py#L41
+
 CSRF protection is required against Cross Site Request Forgery attacks. These attacks take place when malicious website contains Javascript code that is supposed to damage your website when intruder is logged in with proper credentials or if your web application allows to insert custom code into its url. For example, the attacker can send an email being disquised and present oneself as trusted authority that asks to navigate to a website via link button and pushing it triggers some malicious Javascript code. 
 
 Good approach to mitigate CSRF risks includes using built-in Django protection, double submit cookies, only using POST requests for state changing operations. Particularly for this application, the views module in polls app should have *csrf_protect* decorator instead of *csrf_exempt* above the post request receiver for the PollView.
 
 ### 3. [Security Logging and Monitoring Failures]('https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
+
+https://github.com/IlmastMaksim/cyber-security-base-project/blob/main/polls/views.py#L20
 
 There is no particular direct vulnerability related to the absence of a qualitative logging and monitoring system in the app, however if the app falls under attack or get affected by some outer malicious software, then the logging system would play a similar role to the black box in airplanes. Thus, it would be much easier to detect a threat, be it a botnet or ransomware attack, and see how it has damaged the app in order to properly neutralize the consequences.
 
@@ -66,11 +72,15 @@ For this case, a good option would be to make sure that every request made to th
 
 ### 4. [Security Misconfiguration]('https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)
 
+https://github.com/IlmastMaksim/cyber-security-base-project/blob/main/vulnerablewebsite/settings.py
+
 This topic related errors occur when required security settings are either not implmented or implemented incorrectly. Intruders, relying on these security vulnerabilities, strive to exploit that to organize cyber attacks and data breaches. Security misconfiguration can be presented in the app as an unsecure, predictable password assigned to an administrator user, unpublished urls being unblocked from non-administrative users.
 
 In this application there is an administrative user, which is created by default not following the secure password policy. The users password is *secretsecret*, so it doesnt contain symbols as numbers, uppercase letters or punctuals, what makes it possible for an intruder to hack such account. Also, the admin panel of this app, which is located under the address http://127.0.0.1:8000/admin is not hidden from the common user traffic, so that it can be scanned and found by intruders. When deploying the application needful to keep in mind that the configuration should be adjusted specifically for the production mode, meaning that such parameters as *Debug* should be modified to *False* correspondingly.
 
 ### 5. [Insecure Design]('https://owasp.org/Top10/A04_2021-Insecure_Design/)
+
+https://github.com/IlmastMaksim/cyber-security-base-project/blob/main/polls/templates/polls/poll.html
 
 Insecure design is essentially an unreliable approach of organizing the application structure. Reliable design approaches include for an instance the implementation of various measures that would allow to prevent possible intrusion like checks, specific tools and pipelines, intended randomization of various data element attributes. 
 
