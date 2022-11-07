@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 from polls.models import Selection, Poll, Vote
 
@@ -36,9 +37,10 @@ class PollView(View):
                 "stats": None if sum(stats.values()) == 0 else stats,
             },
         )
-
+        
+    @csrf_exempt
     def post(self, request, poll_id):
-        selection_id = request.POST.get("selection_id")
+        selection_id = request.POST.get("selection_id") # possible injection intrusion
         poll = Poll.objects.get(id=poll_id)
         selection = Selection.objects.get(id=selection_id)
         Vote.objects.create(

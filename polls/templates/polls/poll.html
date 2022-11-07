@@ -8,6 +8,7 @@
 
 <h2> {{ poll.name }} </h2>
 <form method="post">
+  <!-- place for csrf token -->
   {% csrf_token %}
   {% for selection in poll.selections.all %}
     <div class="form-check">
@@ -26,7 +27,7 @@
 
 <script>
 
-  const data = {{ stats| safe }};
+  const data = {{ stats | safe }};
 
   const xValues = Object.keys(data);
   const yValues = Object.values(data);
